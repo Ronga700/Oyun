@@ -58,6 +58,14 @@ function updateUI() {
     alert("Game Over!");
     window.location.reload();
     }
+  if (points1>=10){
+    alert("Player 2 wins");
+    window.location.reload();
+  }
+  else if(points2>=50){
+    alert("Player 1 wins");
+    window.location.reload();
+  }
 }
 
 function isCollide(a, b) {
