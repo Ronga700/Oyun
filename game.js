@@ -5,6 +5,8 @@ const gameAreaHeight = window.innerHeight;
 const playerSize = 100;
 const gameArea1 = document.getElementById("gameArea1");
 const gameArea2 = document.getElementById("gameArea2");
+let menu;
+let startButton;
 let posX = 280;
 let posX1= 280;
 const speed = 8;
@@ -43,7 +45,6 @@ function movePlayer() {
   requestAnimationFrame(movePlayer);
 }
 
-movePlayer();
 
 let rateBomb = 2500;
 let rateGold = 1500;
@@ -213,7 +214,40 @@ function spawnBombLeftLoop() {
 
   setTimeout(spawnBombLeftLoop, rateBomb);
 }
-spawnImageRightLoop();
-spawnImageLeftLoop();
-spawnBombRightLoop();
-spawnBombLeftLoop();
+function startGame(){
+    if (menu) document.body.removeChild(menu);
+    if (startButton) document.body.removeChild(startButton);
+    movePlayer();
+    spawnImageRightLoop();
+    spawnImageLeftLoop();
+    spawnBombRightLoop();
+    spawnBombLeftLoop();
+  }
+function startMenu(){
+  menu = document.createElement("div");
+  menu.innerHTML="Salam.<br>Qızılları yığın və bombalardan uzaq durun.<br>Player 1 - w & d<Br>Player 2 - < & >"
+  menu.style.left=660 + "px";
+  menu.style.top = 300 + "px";
+  menu.style.width = 250 + "px";
+  menu.style.height= 100 +"px";
+  menu.style.position="absolute"
+  menu.style.backgroundColor="white"
+  menu.style.borderStyle="solid"
+  menu.style.borderWidth=2 + "px";
+  menu.style.textAlign="center";
+  menu.style.fontFamily="sans-serif"
+  document.body.appendChild(menu);
+  startButton = document.createElement("button");
+  startButton.innerHTML="Başla";
+  startButton.style.top= 405 + "px";
+  startButton.style.left=745 + "px";
+  startButton.style.width=50 + "px";
+  startButton.style.height=30 + "px";
+  startButton.style.textAlign="center";
+  startButton.style.fontFamily="sans-serif"
+  startButton.style.position="absolute"
+  startButton.style.backgroundColor="white"
+  startButton.addEventListener("click",startGame);
+  document.body.appendChild(startButton);
+}
+startMenu();
