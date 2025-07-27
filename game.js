@@ -6,6 +6,7 @@ const playerSize = 100;
 const gameArea1 = document.getElementById("gameArea1");
 const gameArea2 = document.getElementById("gameArea2");
 let menu;
+let gameOver = false;
 let startButton;
 let posX = 280;
 let posX1= 280;
@@ -24,6 +25,7 @@ document.addEventListener("keyup", (event) => {
 });
 
 function movePlayer() {
+  if(gameOver) return;
   if (keys["ArrowLeft"]) {
     posX1 -= speed;
   }
@@ -55,20 +57,67 @@ function updateUI() {
   document.getElementById("score2").innerText = "Score Player 2: " + points1;
   document.getElementById("lives1").innerText = "Lives Player 1: " + lives2;
   document.getElementById("lives2").innerText = "Lives Player 2: " + lives1;
-  if (lives1 <= 0 || lives2 <= 0) {
-    alert("Game Over!");
-    window.location.reload();
-    }
+  if (lives1 <= 0) {
+    gameOver=true;
+    showResult("player1");
+    return;
+  }
+  if (lives2 <= 0) {
+    gameOver=true;
+    showResult("player2");
+    return;
+  }
   if (points1>=60){
-    alert("Player 2 wins");
-    window.location.reload();
+    gameOver=true;
+    showResult("player1")
   }
   else if(points2>=60){
-    alert("Player 1 wins");
-    window.location.reload();
+    gameOver=true;
+    showResult("player2")
   }
 }
+function showResult(winnerSide) {
+  const loserImg = document.createElement("img");
+  loserImg.src = "nebati.jpg";
+  loserImg.style.position = "absolute";
+  loserImg.style.width = "100px";
+  loserImg.style.height = "100px";
+  loserImg.style.top = "300px";
 
+  const winnerDiv = document.createElement("div");
+  winnerDiv.innerText = "Winner!";
+  winnerDiv.style.position = "absolute";
+  winnerDiv.style.backgroundColor = "lightgreen";
+  winnerDiv.style.padding = "20px";
+  winnerDiv.style.border = "2px solid black";
+  winnerDiv.style.top = "300px";
+
+  const restart = document.createElement("button");
+  restart.innerHTML="Play again"
+  restart.style.width=50 + "px";
+  restart.style.height=40 + "px";
+  restart.style.left=window.innerWidth/2 - 25 + "px";
+  restart.style.top=window.innerHeight/2 + "px";
+  restart.style.position="absolute"
+  restart.style.borderStyle="solid"
+  restart.style.borderWidth=2 + "px"
+  restart.style.backgroundColor="white"
+  restart.addEventListener("click",()=>{
+    window.location.reload();
+  })
+  document.body.appendChild(restart);
+
+  if (winnerSide === "player1") {
+    loserImg.style.left = window.innerWidth - 150 + "px";
+    winnerDiv.style.left = "100px"; 
+  } else {
+    loserImg.style.left = "100px"; 
+    winnerDiv.style.left = window.innerWidth - 250 + "px";
+  }
+
+  document.body.appendChild(loserImg);
+  document.body.appendChild(winnerDiv);
+}
 function isCollide(a, b) {
   var aRect = a.getBoundingClientRect();
   var bRect = b.getBoundingClientRect();
@@ -82,6 +131,10 @@ function isCollide(a, b) {
 }
 
 function animateCoin(coin){
+  if (gameOver) {
+    coin.remove(); 
+    return;
+  }
   let top = 0;
   function fall() {
     top += 10; 
@@ -109,6 +162,10 @@ function animateCoin(coin){
   fall();
 }
 function animateBomb(bomb){
+  if (gameOver) {
+    bomb.remove(); 
+    return;
+  }
   let top = 0;
   function fall() {
     top += 10; 
@@ -184,6 +241,7 @@ function spawnBombRight() {
   animateBomb(bomb);
 }
 function spawnImageRightLoop() {
+  if (gameOver) return;
   spawnImageRight();
 
   if (rateGold > 300) rateGold -= 100;
@@ -192,6 +250,7 @@ function spawnImageRightLoop() {
 }
 
 function spawnImageLeftLoop() {
+  if (gameOver) return;
   spawnImageLeft();
 
   if (rateGold > 300) rateGold -= 100;
@@ -200,6 +259,7 @@ function spawnImageLeftLoop() {
 }
 
 function spawnBombRightLoop() {
+  if (gameOver) return;
   spawnBombRight();
 
   if (rateBomb > 500) rateBomb -= 100;
@@ -208,6 +268,7 @@ function spawnBombRightLoop() {
 }
 
 function spawnBombLeftLoop() {
+  if (gameOver) return;
   spawnBombLeft();
 
   if (rateBomb > 500) rateBomb -= 100;
