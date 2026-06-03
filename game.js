@@ -286,7 +286,7 @@ function startGame(){
   }
 function startMenu(){
   menu = document.createElement("div");
-  menu.innerHTML="Salam.<br>Qızılları yığın və bombalardan uzaq durun.<br>Player 1 - w & d<Br>Player 2 - < & >"
+  menu.innerHTML="Qızılları yığın və bombalardan uzaq durun.<br>Player 1 - w & d<Br>Player 2 - < & >"
   menu.style.left=660 + "px";
   menu.style.top = 300 + "px";
   menu.style.width = 250 + "px";
