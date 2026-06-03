@@ -78,7 +78,7 @@ function updateUI() {
 }
 function showResult(winnerSide) {
   const loserImg = document.createElement("img");
-  loserImg.src = "nebati.jpg";
+  loserImg.src = "dislike.png";
   loserImg.style.position = "absolute";
   loserImg.style.width = "100px";
   loserImg.style.height = "100px";
